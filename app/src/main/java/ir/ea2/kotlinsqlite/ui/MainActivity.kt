@@ -1,7 +1,8 @@
-package ir.ea2.kotlinsqlite
+package ir.ea2.kotlinsqlite.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ir.ea2.kotlinsqlite.R
 
 class MainActivity : AppCompatActivity() {
 
