@@ -12,7 +12,7 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
         contentValue.put(AppDatabase.TEAM_GROUND, entity.ground)
         val insertResult = db.insert(AppDatabase.TEAM_TABLE, null, contentValue)
         db.close()
-      if(insertResult>0) return true
+        if (insertResult > 0) return true
         return false
 
     }
@@ -22,7 +22,22 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
     }
 
     override fun findAll(): List<Team> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val db = appDatabase.readableDatabase
+        query = "SELECT * FROM ${AppDatabase.TEAM_TABLE}"
+        val cursor = db.rawQuery(query, null)
+        data.clear()
+        //If Has Data then Get Data , Add Data To List<Team> And Return List .
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_ID))
+                val name = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_NAME))
+                val ground = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_GROUND))
+                data.add(Team(id.toLong(), name, ground))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return data
     }
 
     override fun find(columnName: String, columnValue: String): List<Team> {
