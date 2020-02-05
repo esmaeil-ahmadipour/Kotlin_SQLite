@@ -41,8 +41,25 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
     }
 
     override fun find(columnName: String, columnValue: String): List<Team> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        val db = appDatabase.readableDatabase
+        // `?` in Next Line Is Standard For (SQL Injection).
+        // value of `?` Set in Second Parameter Of rawQuery() .
+        //For More `?` , We Need Array In Input Of Method Example: find(columnName:List<String> ,columnValue: List<String>)
+        query = "SELECT * FROM ${AppDatabase.TEAM_TABLE} WHERE $columnName = ?"
+        val cursor = db.rawQuery(query, arrayOf(columnValue))
+        data.clear()
+        //If Has Data then Get Data , Add Data To List<Team> And Return List .
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_ID))
+                val name = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_NAME))
+                val ground = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_GROUND))
+                data.add(Team(id.toLong(), name, ground))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return data    }
 
     override fun delete(id: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
