@@ -59,9 +59,20 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
         }
         cursor.close()
         db.close()
-        return data    }
+        return data
+    }
 
     override fun delete(id: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val db = appDatabase.writableDatabase
+        //Delete By Id According to `id` Value .
+        val result = db.delete(AppDatabase.TEAM_TABLE, "${AppDatabase.TEAM_ID} = ?", arrayOf(id))
+        db.close()
+        if (result > 0) {
+            // DELETE SUCCESSFULLY
+            return true
+        } else {
+            // DELETE FAILED
+            return false
+        }
     }
 }

@@ -27,4 +27,7 @@ class AppRepository(val teamDao: TeamDao, val playerDao: PlayerDao) {
     fun findTeamsByGround(ground: String): List<Team> {
         return teamDao.find(AppDatabase.TEAM_GROUND, ground)
     }
+    fun deleteTeamById(id:String):Boolean{
+        return teamDao.delete(id)
+    }
 }
