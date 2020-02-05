@@ -18,7 +18,14 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
     }
 
     override fun save(id: String, entity: Team): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val db = appDatabase.writableDatabase
+        contentValue.clear()
+        contentValue.put(AppDatabase.TEAM_NAME, entity.name)
+        contentValue.put(AppDatabase.TEAM_GROUND, entity.ground)
+        val insertResult = db.update(AppDatabase.TEAM_TABLE,contentValue,"${AppDatabase.TEAM_ID} = ?", arrayOf(id))
+        db.close()
+        if (insertResult > 0) return true
+        return false
     }
 
     override fun findAll(): List<Team> {

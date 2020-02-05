@@ -30,4 +30,7 @@ class AppRepository(val teamDao: TeamDao, val playerDao: PlayerDao) {
     fun deleteTeamById(id:String):Boolean{
         return teamDao.delete(id)
     }
+    fun updateTeam(id:String , team: Team):Boolean{
+        return teamDao.save(id,team)
+    }
 }

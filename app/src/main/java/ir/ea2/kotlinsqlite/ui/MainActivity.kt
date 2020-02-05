@@ -27,10 +27,15 @@ class MainActivity : AppCompatActivity() {
         val playerDao: PlayerDao = PlayerDao(appDatabase)
         val appRepository = AppRepository(teamDao, playerDao)
 
-        //Delete Team By Id & Show Result On Database
-        val result = appRepository.deleteTeamById("6")
-        Log.i("DELETE_TEAM" , result.toString())
+        //Update Team
+        val result = appRepository.updateTeam("4",Team("AC Milan","San Siro"))
+        Log.i("UPDATE_TEAM" , result.toString())
         appRepository.findAllTeams().forEach{Log.i("FIND_ALL",it.toString())}
+
+        //Delete Team By Id & Show Result On Database
+        /*val result = appRepository.deleteTeamById("6")
+        Log.i("DELETE_TEAM" , result.toString())
+        appRepository.findAllTeams().forEach{Log.i("FIND_ALL",it.toString())}*/
 
         //Find Methods For Team
         /*Log.i("FIND_BY_ID" , appRepository.findTeamById("3").toString())
