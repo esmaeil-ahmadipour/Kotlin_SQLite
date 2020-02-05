@@ -27,12 +27,12 @@ class AppDatabase(context: Context) :
     override fun onCreate(db: SQLiteDatabase?) {
         //If Invalid Tables Then Create Tables.For Create Tables Should Be Write Query.
         db!!.execSQL("CREATE TABLE IF NOT EXISTS $TEAM_TABLE ("+
-               "$TEAM_ID INTEGER PRIMARY KEY AUTOINCREMENT, +" +
+               "$TEAM_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$TEAM_NAME TEXT,"+
         "$TEAM_GROUND TEXT)")
 
         db.execSQL("CREATE TABLE IF NOT EXISTS $PLAYER_TABLE ("+
-                "$PLAYER_ID INTEGER PRIMARY KEY AUTOINCREMENT, +" +
+                "$PLAYER_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$PLAYER_NAME TEXT,"+
                 "$PLAYER_TEAM_ID INTEGER, "+
                 "FOREIGN KEY ($PLAYER_TEAM_ID) REFERENCES $TEAM_TABLE($TEAM_ID))")
