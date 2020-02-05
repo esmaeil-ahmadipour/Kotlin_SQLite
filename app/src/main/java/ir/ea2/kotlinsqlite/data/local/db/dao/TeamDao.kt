@@ -1,5 +1,8 @@
 package ir.ea2.kotlinsqlite.data.local.db.dao
 
+import android.content.ContentValues
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import ir.ea2.kotlinsqlite.data.local.db.AppDatabase
 import ir.ea2.kotlinsqlite.data.model.Team
 
@@ -7,9 +10,7 @@ import ir.ea2.kotlinsqlite.data.model.Team
 class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
     override fun save(entity: Team): Boolean {
         val db = appDatabase.writableDatabase
-        contentValue.clear()
-        contentValue.put(AppDatabase.TEAM_NAME, entity.name)
-        contentValue.put(AppDatabase.TEAM_GROUND, entity.ground)
+        updateContentValues(entity, contentValue)
         val insertResult = db.insert(AppDatabase.TEAM_TABLE, null, contentValue)
         db.close()
         if (insertResult > 0) return true
@@ -19,9 +20,7 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
 
     override fun save(id: String, entity: Team): Boolean {
         val db = appDatabase.writableDatabase
-        contentValue.clear()
-        contentValue.put(AppDatabase.TEAM_NAME, entity.name)
-        contentValue.put(AppDatabase.TEAM_GROUND, entity.ground)
+        updateContentValues(entity, contentValue)
         val insertResult = db.update(AppDatabase.TEAM_TABLE,contentValue,"${AppDatabase.TEAM_ID} = ?", arrayOf(id))
         db.close()
         if (insertResult > 0) return true
@@ -32,19 +31,7 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
         val db = appDatabase.readableDatabase
         query = "SELECT * FROM ${AppDatabase.TEAM_TABLE}"
         val cursor = db.rawQuery(query, null)
-        data.clear()
-        //If Has Data then Get Data , Add Data To List<Team> And Return List .
-        if (cursor.moveToFirst()) {
-            do {
-                val id = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_ID))
-                val name = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_NAME))
-                val ground = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_GROUND))
-                data.add(Team(id.toLong(), name, ground))
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        db.close()
-        return data
+        return cursorToList(cursor,db)
     }
 
     override fun find(columnName: String, columnValue: String): List<Team> {
@@ -54,19 +41,7 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
         //For More `?` , We Need Array In Input Of Method Example: find(columnName:List<String> ,columnValue: List<String>)
         query = "SELECT * FROM ${AppDatabase.TEAM_TABLE} WHERE $columnName = ?"
         val cursor = db.rawQuery(query, arrayOf(columnValue))
-        data.clear()
-        //If Has Data then Get Data , Add Data To List<Team> And Return List .
-        if (cursor.moveToFirst()) {
-            do {
-                val id = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_ID))
-                val name = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_NAME))
-                val ground = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_GROUND))
-                data.add(Team(id.toLong(), name, ground))
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        db.close()
-        return data
+        return cursorToList(cursor,db)
     }
 
     override fun delete(id: String): Boolean {
@@ -81,5 +56,28 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
             // DELETE FAILED
             return false
         }
+    }
+
+    override fun updateContentValues(entity: Team, contentValue: ContentValues) {
+        contentValue.clear()
+        contentValue.put(AppDatabase.TEAM_NAME, entity.name)
+        contentValue.put(AppDatabase.TEAM_GROUND, entity.ground)
+
+    }
+
+    override fun cursorToList(cursor: Cursor, db: SQLiteDatabase): List<Team> {
+        data.clear()
+        //If Has Data then Get Data , Add Data To List<Team> And Return List .
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_ID))
+                val name = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_NAME))
+                val ground = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_GROUND))
+                data.add(Team(id.toLong(), name, ground))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return data
     }
 }
