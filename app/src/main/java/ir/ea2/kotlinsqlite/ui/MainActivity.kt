@@ -7,6 +7,7 @@ import ir.ea2.kotlinsqlite.R
 import ir.ea2.kotlinsqlite.data.local.db.AppDatabase
 import ir.ea2.kotlinsqlite.data.local.db.dao.PlayerDao
 import ir.ea2.kotlinsqlite.data.local.db.dao.TeamDao
+import ir.ea2.kotlinsqlite.data.model.Team
 import ir.ea2.kotlinsqlite.data.repository.AppRepository
 
 class MainActivity : AppCompatActivity() {
@@ -32,15 +33,20 @@ class MainActivity : AppCompatActivity() {
         val playerDao: PlayerDao = PlayerDao(appDatabase)
         val appRepository = AppRepository(teamDao, playerDao)
 
+        //Find Team By Player
+
+        Log.i("FIND_BY_ID", appRepository.findTeamByPlayer(playerId = "3").toString())
 
         //Save New Player
         /*appRepository.savePlayer(messi)
         appRepository.savePlayer(suarez)
         appRepository.savePlayer(ronaldo)*/
+
         //FindAll Player
-        appRepository.findAllPlayers().forEach { Log.i("FIND_ALL", it.toString()) }
+        /*appRepository.findAllPlayers().forEach { Log.i("FIND_ALL", it.toString()) }*/
+
         //Player FindById
-        Log.i("FIND_BY_ID", appRepository.findPlayerById("3").toString())
+        /*Log.i("FIND_BY_ID", appRepository.findPlayerById("3").toString())*/
 
 
 //Update Team
@@ -59,9 +65,7 @@ appRepository.findTeamsByName("Barcelona").forEach{Log.i("FIND_BY_NAME",it.toStr
 appRepository.findTeamsByGround("Santiago Bernabeu").forEach{Log.i("FIND_BY_GROUND",it.toString())}*/
 
 //FindAll Teams
-/*
-appRepository.findAllTeams().forEach{Log.i("FIND_ALL",it.toString())}
-*/
+/*appRepository.findAllTeams().forEach{Log.i("FIND_ALL",it.toString())}*/
 
 //Save New Team
 /*appRepository.saveTeam(barcelona)

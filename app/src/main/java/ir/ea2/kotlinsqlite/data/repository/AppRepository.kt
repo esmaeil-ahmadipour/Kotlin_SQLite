@@ -42,4 +42,10 @@ class AppRepository(val teamDao: TeamDao, val playerDao: PlayerDao) {
     fun findPlayerById(id: String): Player {
         return playerDao.find(AppDatabase.PLAYER_ID, id)[0]
     }
+
+
+    fun findTeamByPlayer(playerId:String):Team{
+        return findTeamById(findPlayerById(playerId).teamId.toString())
+
+    }
 }
