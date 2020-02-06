@@ -10,7 +10,7 @@ abstract class BaseDao<T>(val appDatabase: AppDatabase) : ContentValuesUpdater<T
     val contentValue = ContentValues()
     //For Better Using From Resources Set query&data In BaseDaoClass.
     var query = ""
-    var data: MutableList<Team> = ArrayList()
+    var data: MutableList<T> = ArrayList()
 
     abstract fun  save (entity:T):Boolean
     abstract  fun save (id:String , entity: T):Boolean

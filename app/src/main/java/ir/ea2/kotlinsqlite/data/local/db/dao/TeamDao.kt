@@ -49,13 +49,7 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
         //Delete By Id According to `id` Value .
         val result = db.delete(AppDatabase.TEAM_TABLE, "${AppDatabase.TEAM_ID} = ?", arrayOf(id))
         db.close()
-        if (result > 0) {
-            // DELETE SUCCESSFULLY
-            return true
-        } else {
-            // DELETE FAILED
-            return false
-        }
+        return result > 0
     }
 
     override fun updateContentValues(entity: Team, contentValue: ContentValues) {

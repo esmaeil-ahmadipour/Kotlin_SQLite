@@ -10,7 +10,7 @@ class AppDatabase(context: Context) :
     //for easy use of database information in the App , we define variables as Companion Object .
     companion object {
         private const val DATABASE_NAME = "test.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         //First Column Of Database is : "team"
         const val TEAM_TABLE = "teams"
