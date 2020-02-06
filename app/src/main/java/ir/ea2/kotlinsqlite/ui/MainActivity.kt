@@ -33,9 +33,11 @@ class MainActivity : AppCompatActivity() {
         val playerDao: PlayerDao = PlayerDao(appDatabase)
         val appRepository = AppRepository(teamDao, playerDao)
 
-        //Find Team By Player
+        //Find Players By TeamId
+        Log.i("FIND_BY_TEAMID", appRepository.findPlayersByTeam( "2").toString())
 
-        Log.i("FIND_BY_ID", appRepository.findTeamByPlayer(playerId = "3").toString())
+        //Find Team By Player
+        /*Log.i("FIND_BY_ID", appRepository.findTeamByPlayer(playerId = "3").toString())*/
 
         //Save New Player
         /*appRepository.savePlayer(messi)
