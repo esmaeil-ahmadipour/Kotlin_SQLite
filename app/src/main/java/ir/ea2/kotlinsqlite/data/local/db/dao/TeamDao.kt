@@ -56,6 +56,7 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
         contentValue.clear()
         contentValue.put(AppDatabase.TEAM_NAME, entity.name)
         contentValue.put(AppDatabase.TEAM_GROUND, entity.ground)
+        contentValue.put(AppDatabase.TEAM_MANAGER, entity.manager)
 
     }
 
@@ -67,7 +68,8 @@ class TeamDao(appDatabase: AppDatabase) : BaseDao<Team>(appDatabase) {
                 val id = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_ID))
                 val name = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_NAME))
                 val ground = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_GROUND))
-                data.add(Team(id.toLong(), name, ground))
+                val manager = cursor.getString(cursor.getColumnIndex(AppDatabase.TEAM_MANAGER))
+                data.add(Team(id.toLong(), name, ground,manager))
             } while (cursor.moveToNext())
         }
         cursor.close()

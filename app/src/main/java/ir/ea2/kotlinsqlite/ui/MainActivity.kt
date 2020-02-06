@@ -33,22 +33,30 @@ class MainActivity : AppCompatActivity() {
         val playerDao: PlayerDao = PlayerDao(appDatabase)
         val appRepository = AppRepository(teamDao, playerDao)
 
-        //Find Players By TeamId
-        Log.i("FIND_BY_TEAMID", appRepository.findPlayersByTeam( "2").toString())
+        //Add Data For : Save New Team
+        val realmadrid = Team("RealMadrid", "Santiago Bernabeu","Prez")
+        appRepository.saveTeam(realmadrid)
 
-        //Find Team By Player
-        /*Log.i("FIND_BY_ID", appRepository.findTeamByPlayer(playerId = "3").toString())*/
+        //FindAll Teams
+        appRepository.findAllTeams().forEach{Log.i("FIND_ALL",it.toString())}
 
-        //Save New Player
-        /*appRepository.savePlayer(messi)
-        appRepository.savePlayer(suarez)
-        appRepository.savePlayer(ronaldo)*/
 
-        //FindAll Player
-        /*appRepository.findAllPlayers().forEach { Log.i("FIND_ALL", it.toString()) }*/
+//Find Players By TeamId
+/*Log.i("FIND_BY_TEAMID", appRepository.findPlayersByTeam( "2").toString())*/
 
-        //Player FindById
-        /*Log.i("FIND_BY_ID", appRepository.findPlayerById("3").toString())*/
+//Find Team By Player
+/*Log.i("FIND_BY_ID", appRepository.findTeamByPlayer(playerId = "3").toString())*/
+
+//Save New Player
+/*appRepository.savePlayer(messi)
+appRepository.savePlayer(suarez)
+appRepository.savePlayer(ronaldo)*/
+
+//FindAll Player
+/*appRepository.findAllPlayers().forEach { Log.i("FIND_ALL", it.toString()) }*/
+
+//Player FindById
+/*Log.i("FIND_BY_ID", appRepository.findPlayerById("3").toString())*/
 
 
 //Update Team
